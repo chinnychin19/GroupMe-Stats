@@ -1,0 +1,32 @@
+{
+  "name": "GroupMe-Stats",
+  "version": "0.0.0",
+  "description": "Analyzes statistics concerning GroupMe likes and message counts",
+  "main": "index.js",
+  "dependencies": {
+    "express": "~3.4.8",
+    "haml": "~0.4.3",
+    "jade": "~1.1.5",
+    "pem": "~1.2.2",
+    "oauth": "~0.9.11",
+    "xmlhttprequest": "~1.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chinnychin19/GroupMe-Stats.git"
+  },
+  "keywords": [
+    "GroupMe",
+    "Stats"
+  ],
+  "author": "Chinmay Patwardhan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chinnychin19/GroupMe-Stats/issues"
+  },
+  "homepage": "https://github.com/chinnychin19/GroupMe-Stats"
+}
