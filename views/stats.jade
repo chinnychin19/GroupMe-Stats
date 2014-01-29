@@ -1,0 +1,30 @@
+html(lang="en")
+	head
+		title GroupMe Stats
+		- function formatString(x) {return (x+"").slice(0,5)}
+	body
+		h1 Stats for ***Group name***:
+		table
+			tr
+				td 
+					b Name(s)
+				td 
+					b Ratio
+				td 
+					b Likes Received
+				td 
+					b Messages Sent
+				td 
+					b Likes Given
+				td 
+					b Self-Likes
+			- for (var x in members)
+				- var member = members[x]
+				- if (member.names.length == 0) continue
+				tr
+					td= member.names.join(" / ")
+					td= formatString(member.ratio)
+					td= member.likesReceived
+					td= member.messageCount
+					td= member.likesGiven
+					td= member.selfLikes
