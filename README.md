@@ -1,4 +1,3 @@
-Hack316
-=======
+GroupMe-Stats
+=============
 
-Just a friendly night of hacking in room 316
