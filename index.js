@@ -1,11 +1,10 @@
 var express = require('express');
 var https = require('https');
 var pem = require('pem');
-var url = require('url');
 var home = require('./js/home');
 var group = require('./js/group');
 
-var ACCESS_TOKEN = '';
+var USER_DATA = {};
 function start() {
 	var app = express();
 
@@ -18,25 +17,41 @@ function start() {
 
 	app.get("/home",
 		function(request, response) {
-			ACCESS_TOKEN = request.query.access_token;
-			home.home(ACCESS_TOKEN, function(err, data) {
+			console.log('home');
+			USER_DATA.accessToken = request.query.access_token;
+			home.home(USER_DATA, function(err, data) {
 				printData(request, response, err, data);
 			});
 		});
 
-	app.get("/group/:groupId/members?", 
+	app.get("/group/:groupId",
 		function(request, response) {
-			group.showMembers(ACCESS_TOKEN, request.params.groupId, function(err, data) {
+			group.getOptionsHTML(USER_DATA, request.params.groupId, function(err, data) {
 				printData(request, response, err, data);
 			});
 		});
 
 	app.get("/group/:groupId/stats", 
 		function(request, response) {
-			group.loadMessages(ACCESS_TOKEN, request.params.groupId, function(err, data) {
+			group.getStatsHTML(USER_DATA, request.params.groupId, function(err, data) {
 				printData(request, response, err, data);
 			});
 	});
+
+	app.get("/group/:groupId/removeAllOtherMembers", 
+		function(request, response) {
+			console.log("removing all members");
+			group.removeAllOtherMembers(USER_DATA, request.params.groupId, function(err, data) {
+				printData(request, response, err, data);
+			});
+	});	
+
+	app.get("/group/:groupId/members", 
+		function(request, response) {
+			group.getMembersHTML(USER_DATA, request.params.groupId, function(err, data) {
+				printData(request, response, err, data);
+			});
+		});
 
 	setupServer(app);
 }

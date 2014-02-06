@@ -1,64 +1,55 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var jade = require('jade');
 var fs = require('fs');
+var helpers = require('./helpers.js');
 
-function loadMembers(ACCESS_TOKEN, groupId, callback) {
-	console.log("loading group: "+groupId+".");
-	var request = new XMLHttpRequest();
-	request.onreadystatechange = function() {
-		if (request.readyState==4 && request.status==200) {
-			fs.readFile('./views/groupMembers.jade', function(err, data) {
-				var obj = JSON.parse(request.responseText);
-				var fn = jade.compile(data);
-				var output = fn(obj);
-				callback(null, output);
-			});
-		}
-	}
-	request.open("GET","https://api.groupme.com/v3/groups/"+groupId+"?token="+ACCESS_TOKEN, true);
-	request.send();
+function getOptionsHTML(USER_DATA, groupId, callback) {
+	fs.readFile('./views/groupOptions.jade', function(err, data) {
+		var obj = {"group" : {"id" : groupId}};
+		var fn = jade.compile(data);
+		var output = fn(obj);
+		callback(null, output);
+	});
 }
 
-function loadMessages(ACCESS_TOKEN, groupId, callback) {
-// load a group's messages from a groupId
-	var request1 = new XMLHttpRequest();
-	var foundMessages = [];
-	request1.onreadystatechange = function getNextPage(progressEvent_ignore, prevRequest, earliestId, totalMessages) {
-		if (!prevRequest) {
-			prevRequest = request1;
-		}
-		if (prevRequest.readyState==4 && prevRequest.status==200) {
-			console.log("next request received");
-			var obj = JSON.parse(prevRequest.responseText);
-			var earliestId = earliestId ? earliestId : obj.response.messages.last_message_id;
-			var request2 = new XMLHttpRequest();
-			var totalMessages = totalMessages ? totalMessages : obj.response.messages.count - 1; //most recent message not included
+function getMembersHTML(USER_DATA, groupId, callback) {
+	helpers.getMembers(USER_DATA, groupId, function(members) {
+		fs.readFile('./views/groupMembers.jade', function(err, data) {
+			var fn = jade.compile(data);
+			var output = fn(members);
+			callback(null, output);
+		});
+	});
+}
 
-			request2.onreadystatechange = function() {
-				if (request2.readyState==4 && request2.status==200) {
-					var obj = JSON.parse(request2.responseText);
-					var curMessages = obj.response.messages;
-					for (var i = 0; i < curMessages.length; i++) {
-						foundMessages.push(curMessages[i]);
-					}
-					if (foundMessages.length >= totalMessages) {
-						generateStats(foundMessages, callback); // Pass the compiled list of messages to a function that analyzes it
-					} else {
-						console.log("Still need to scrape "+ (totalMessages - foundMessages.length) + " messages");
-						earliestId = foundMessages[foundMessages.length - 1].id;
-						getNextPage(null, request2, earliestId, totalMessages);
-					}
-				}
+function getStatsHTML(USER_DATA, groupId, callback) {
+	console.log("stats request received")
+	helpers.getMessages(USER_DATA, groupId, function(messages) {
+		calculateStats(messages, callback);
+	});
+}
+
+function removeAllOtherMembers(USER_DATA, groupId, callback) {
+	helpers.getMembers(USER_DATA, groupId, function(obj) {
+		var members = obj.response.members;
+		console.log(members);
+		for (var i in members) {
+			var request = new XMLHttpRequest();
+			var userId = members[i].id;
+			if (userId == USER_DATA.user_id) { //Delete every EXCEPT self
+				continue;
 			}
-			request2.open("GET","https://api.groupme.com/v3/groups/"+groupId+"/messages?before_id="+earliestId+"&token="+ACCESS_TOKEN, true);
-			request2.send();
+			request.open("POST","https://api.groupme.com/v3/groups/"+groupId+"/members/"+userId+"/remove?token="+USER_DATA.accessToken, true);
+			request.send();
 		}
-	}
-	request1.open("GET","https://api.groupme.com/v3/groups/"+groupId+"?token="+ACCESS_TOKEN, true);
-	request1.send();
+
+		callback(null, "All members were removed. You're also probably an ass hole.");
+	});
 }
 
-function generateStats(messages, callback) {
+
+
+function calculateStats(messages, callback) {
 	// messageCount, likesReceived, likesGiven, names, selfLikes
 	function addMember(user_id, members) {
 		members[user_id] = {
@@ -108,5 +99,7 @@ function generateStats(messages, callback) {
 	});
 }
 
-exports.loadMembers = loadMembers;
-exports.loadMessages = loadMessages;
+exports.getOptionsHTML = getOptionsHTML;
+exports.getMembersHTML = getMembersHTML;
+exports.getStatsHTML = getStatsHTML;
+exports.removeAllOtherMembers = removeAllOtherMembers;
