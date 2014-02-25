@@ -59,8 +59,9 @@ function start() {
 			});
 		});
 
-	console.log('listening to 8080');
-	app.listen(8080);
+	var port = process.env.PORT || 8080;
+	console.log('listening to '+port);
+	app.listen(port);
 	// setupServer(app);
 }
 
