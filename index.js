@@ -1,5 +1,6 @@
 var express = require('express');
 var https = require('https');
+var http = require('http');
 var pem = require('pem');
 var home = require('./js/home');
 var group = require('./js/group');
@@ -53,7 +54,9 @@ function start() {
 			});
 		});
 
-	setupServer(app);
+	console.log('listening to 8080');
+	app.listen(8080);
+	// setupServer(app);
 }
 
 function printData(request, response, err, data) {
@@ -63,17 +66,17 @@ function printData(request, response, err, data) {
 	response.end();		
 }
 
-function setupServer(app) {
-	pem.createCertificate({
-		days:1, 
-		selfSigned:true
-	}, function(err, keys) {
-		https.createServer({
-			key: keys.serviceKey, 
-			cert: keys.certificate
-		}, app).listen(443);
-	});
-}
+// function setupServer(app) {
+// 	pem.createCertificate({
+// 		days:1, 
+// 		selfSigned:true
+// 	}, function(err, keys) {
+// 		https.createServer({
+// 			key: keys.serviceKey, 
+// 			cert: keys.certificate
+// 		}, app).listen(443);
+// 	});
+// }
 
 start();
 exports.start = start;
