@@ -1,6 +1,6 @@
 {
   "name": "GroupMe-Stats",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Analyzes statistics concerning GroupMe likes and message counts",
   "main": "index.js",
   "dependencies": {
@@ -11,9 +11,7 @@
     "oauth": "~0.9.11",
     "xmlhttprequest": "~1.6.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,9 +23,5 @@
     "Stats"
   ],
   "author": "Chinmay Patwardhan",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/chinnychin19/GroupMe-Stats/issues"
-  },
-  "homepage": "https://github.com/chinnychin19/GroupMe-Stats"
+  "license": "MIT"
 }
