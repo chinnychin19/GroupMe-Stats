@@ -104,13 +104,13 @@ a img {
  * background color as variables
  */
 body {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: "Trebuchet MS";
   background-color: #ffdbdb;
   color: #444;
 }
 header {
   font-family: 'Quicksand';
-  padding: 50px 10px;
+  padding: 30px 10px 30px 10px;
   color: #ffdbdb;
   font-size: 36px;
   text-align: center;
