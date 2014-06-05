@@ -30,9 +30,7 @@ var sorter = require('./sortMembers.js');
 var membersList = JSON.parse(fs.readFileSync('./maxwellMembersList.json').toString());
 
 app.get('/', function (req, res) {
-  res.render('example', {
-    title : 'Home'
-  });
+  res.send("Trying visiting https://gmstats.herokuapp.com/maxwellstats/leaders");
 });
 
 //TODO: the sorting should be happening on the front end
