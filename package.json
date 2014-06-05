@@ -1,0 +1,30 @@
+{
+  "name": "GroupMe-Stats",
+  "version": "0.0.0",
+  "description": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chinnychin19/GroupMe-Stats.git"
+  },
+  "keywords": [
+    "GroupMe",
+    "Maxwell",
+    "MaxwellHouse"
+  ],
+  "author": "Chinmay Patwardhan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chinnychin19/GroupMe-Stats/issues"
+  },
+  "homepage": "https://github.com/chinnychin19/GroupMe-Stats",
+  "dependencies": {
+    "express": "~4.4.1",
+    "stylus": "~0.46.2",
+    "nib": "~1.0.2",
+    "jade": "~1.3.1"
+  }
+}

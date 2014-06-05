@@ -1,0 +1,35 @@
+extends layout
+
+block head
+  //- script(src="front-end.js")
+  - function formatDecimal(x) { var str = x+""; return (str).slice(0,str.indexOf('.') + 3)}
+
+block content
+  table
+    tr
+      th: a(href="/maxwellstats/leaders?q=name") Name(s)
+      th: a(href="/maxwellstats/leaders?q=ratio") Ratio
+      th: a(href="/maxwellstats/leaders?q=likesReceived") Likes Received
+      th: a(href="/maxwellstats/leaders?q=messageCount") Messages Sent
+      th: a(href="/maxwellstats/leaders?q=likesGiven") Likes Given
+      th: a(href="/maxwellstats/leaders?q=selfLikes") Self-Likes
+
+
+    - for (var x in membersList)
+      - var member = membersList[x]
+      - if (x%2 == 0)
+          tr.evenRow
+            td.name= member.name
+            td= formatDecimal(member.ratio)
+            td= member.likesReceived
+            td= member.messageCount
+            td= member.likesGiven
+            td= member.selfLikes
+      - else
+          tr.oddRow
+            td.name= member.name
+            td= formatDecimal(member.ratio)
+            td= member.likesReceived
+            td= member.messageCount
+            td= member.likesGiven
+            td= member.selfLikes
