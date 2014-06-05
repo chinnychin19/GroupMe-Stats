@@ -1,0 +1,26 @@
+{
+  "name": "GroupMe Stats",
+  "version": "1.0.1",
+  "description": "Compiles statistics on GroupMe groups",
+  "main": "index.js",
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "pem": "~1.2.2",
+    "oauth": "~0.9.11",
+    "unirest": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chinnychin19/GroupMe-Stats.git"
+  },
+  "keywords": [
+    "GroupMe",
+    "Stats"
+  ],
+  "author": "Chinmay Patwardhan",
+  "license": "MIT"
+}
