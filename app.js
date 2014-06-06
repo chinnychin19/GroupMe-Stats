@@ -26,11 +26,11 @@ app.use(express.static(__dirname + '/public'))
     THE ABOVE IS ALL COOKIE CUTTER
 */
 
-var sorter = require('./sortMembers.js');
-var membersList = JSON.parse(fs.readFileSync('./maxwellMembersList.json').toString());
+var sorter = require('./my_modules/sortMembers.js');
+var membersList = JSON.parse(fs.readFileSync('./my_modules/maxwellMembersList.json').toString());
 
 app.get('/', function (req, res) {
-  res.send("Trying visiting https://gmstats.herokuapp.com/maxwellstats/leaders");
+  res.send("<html>Trying visiting <a href='https://gmstats.herokuapp.com/maxwellstats/leaders'>Maxwell Stats</a></html>");
 });
 
 //TODO: the sorting should be happening on the front end
