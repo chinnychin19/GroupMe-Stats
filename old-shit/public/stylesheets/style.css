@@ -104,73 +104,74 @@ a img {
  * background color as variables
  */
 body {
-  font-family: 'Georgia';
-  background-color: #faf9f0;
+  font-family: "Trebuchet MS";
+  background-color: #ffdbdb;
   color: #444;
 }
 header {
   font-family: 'Quicksand';
-  padding: 50px 10px;
-  color: #fff;
-  font-size: 25px;
+  padding: 30px 10px 30px 10px;
+  color: #ffdbdb;
+  font-size: 36px;
   text-align: center;
 /*
    * Note the use of the `main-color`
    * variable and the `darken` function
    */
-  background-color: #fa5b4d;
-  border-bottom: 1px solid #df1806;
-  text-shadow: 0px -1px 0px #df1806;
+  background-color: #a60000;
+  border-bottom: 1px solid #ff0404;
+  text-shadow: 0px -1px 0px #ff0404;
 }
-.container {
-  width: 500px;
+.content {
+  width: 1000px;
   margin: 50px auto;
   overflow: hidden;
 }
-.main-content {
-  float: left;
-  width: 300px;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
-.main-content p {
-  margin-bottom: 20px;
+th,
+td {
+  max-width: 250px;
+  min-width: 120px;
+  text-align: center;
+  font-size: 1em;
+  border: 1px solid #ff7373;
+  padding: 3px 7px 2px 7px;
 }
-.sidebar {
-  float: left;
-  width: 200px;
+th {
+  font-size: 1.1em;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  background-color: #ff7373;
+  color: #fff;
 }
-.sidebar .widget {
-/*
-     * Note the lack of vendor
-     * prefixes here. Nib will
-     * add them for us
-     */
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  margin-left: 20px;
-  background-color: #faf9f0;
-  -webkit-box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,0.8), 0px 3px 0px -2px rgba(0,0,0,0.1);
-  box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,0.8), 0px 3px 0px -2px rgba(0,0,0,0.1);
+td.name {
+  text-align: left;
 }
-.sidebar .widget h1 {
-  font-family: 'Quicksand';
-  margin: 13px 10px 4px;
-  padding-bottom: 10px;
-  border-bottom: 1px dotted #ddd;
-  -webkit-border-radius: 2px 2px 0px 0px;
-  border-radius: 2px 2px 0px 0px;
-  margin-bottom: 10px;
+tr.oddRow td {
+  color: #000;
+  background-color: #ff7373;
 }
-.sidebar .widget p {
-  font-size: 13px;
-  padding: 0px 10px;
-  margin-bottom: 10px;
+tr.evenRow td {
+  color: #000;
+  background-color: #ffdbdb;
 }
-p {
-  line-height: 1.8;
+a:link {
+  color: #000;
+}
+a:hover {
+  font-weight: bold;
+}
+a:visited {
+  color: #000;
+}
+a:selected {
+  color: #000;
 }
 footer {
-  width: 500px;
+  width: 800px;
   margin: 50px auto;
   border-top: 1px dotted #ccc;
   padding-top: 5px;

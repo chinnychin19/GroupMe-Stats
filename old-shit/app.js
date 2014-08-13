@@ -1,78 +1,48 @@
-var express = require('express');
-var stylus = require('stylus');
-var nib = require('nib');
-var util = require('./js/util.js');
-// var home = require('./js/home');
-// var group = require('./js/group');
+var express = require('express')
+  , stylus = require('stylus')
+  , nib = require('nib')
+  , fs = require('fs');
 
-var USER_DATA = {};
-
-var app = express();
+var app = express()
 
 function compile(str, path) {
-	return stylus(str).set('filename', path).use(nib());
+  return stylus(str)
+    .set('filename', path)
+    .use(nib())
 }
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
-app.use(express.logger('dev'))
-app.use(stylus.middleware({
-	src: __dirname + '/public',
-	compile: compile
-}));
+// app.use(express.logger('dev'))
+app.use(stylus.middleware(
+  { src: __dirname + '/public'
+  , compile: compile
+  }
+))
+app.use(express.static(__dirname + '/public'))
 
 
-app.get("/", 
-	function(req, res) {
-		res.redirect("/login");
-	});
+/*
+    THE ABOVE IS ALL COOKIE CUTTER
+*/
 
-app.get("/login",
-	function(req, res) {
-		console.log('logging in through GroupMe redirect');
-		res.redirect("https://api.groupme.com/oauth/authorize?client_id=bDyv72tFtNXG6v6vBuhStVSuf3bNqNJXD6mABluLzvpJOGs6");
-	});
+var sorter = require('./my_modules/sortMembers.js');
+var membersList = JSON.parse(fs.readFileSync('./my_modules/maxwellMembersList.json').toString());
+
+app.get('/', function (req, res) {
+  res.send("<html>Trying visiting <a href='https://gmstats.herokuapp.com/maxwellstats/leaders'>Maxwell Stats</a></html>");
+});
+
+//TODO: the sorting should be happening on the front end
+// GET /maxwellstats/leaders?q=<field to be sorted by>
+app.get('/maxwellstats/leaders', function(req, res) {
+  var field = req.query.q ? req.query.q : "ratio"; // sort by ratio by default
+  console.log("sorting by "+field);
+  sorter.sortBy(membersList, field);
+  var object = { "membersList" : membersList};
+  res.render('leaders', object);
+});
 
 
-app.get("/home",
-	function(req, res) {
-		console.log('home');
-		USER_DATA.accessToken = req.query.access_token;
-		util.getGroups(USER_DATA, function(options) {
-			res.render('home', options);
-		});
-	});
-
-// app.get("/group/:groupId",
-// 	function(request, response) {
-// 		group.getOptionsHTML(USER_DATA, request.params.groupId, function(err, data) {
-// 			printData(request, response, err, data);
-// 		});
-// 	});
-
-// app.get("/group/:groupId/stats", 
-// 	function(request, response) {
-// 		group.getStatsHTML(USER_DATA, request.params.groupId, function(err, data) {
-// 			printData(request, response, err, data);
-// 		});
-// });
-
-// app.get("/group/:groupId/removeAllOtherMembers", 
-// 	function(request, response) {
-// 		console.log("removing all members");
-// 		group.removeAllOtherMembers(USER_DATA, request.params.groupId, function(err, data) {
-// 			printData(request, response, err, data);
-// 		});
-// });	
-
-// app.get("/group/:groupId/members", 
-// 	function(request, response) {
-// 		group.getMembersHTML(USER_DATA, request.params.groupId, function(err, data) {
-// 			printData(request, response, err, data);
-// 		});
-// 	});
-
-var port = process.env.PORT || 8080;
-console.log('listening to '+port);
+var port = process.env.PORT || 3000;
 app.listen(port);
-// setupServer(app);
