@@ -2,10 +2,6 @@
  * Import nib
  */
 /*
- * Grab a custom font from Google
- */
-@import url("http://fonts.googleapis.com/css?family=Quicksand");
-/*
  * Nib provides a CSS reset
  */
 html,
@@ -104,12 +100,10 @@ a img {
  * background color as variables
  */
 body {
-  font-family: "Trebuchet MS";
   background-color: #ffdbdb;
   color: #444;
 }
 header {
-  font-family: 'Quicksand';
   padding: 30px 10px 30px 10px;
   color: #ffdbdb;
   font-size: 36px;
@@ -140,6 +134,10 @@ td {
   border: 1px solid #ff7373;
   padding: 3px 7px 2px 7px;
 }
+td.gridCell {
+  width: 25%;
+  padding: 5px;
+}
 th {
   font-size: 1.1em;
   padding-top: 5px;
@@ -169,6 +167,13 @@ a:visited {
 }
 a:selected {
   color: #000;
+}
+div.bigLink {
+  font-size: 1.5em;
+  padding: 5px;
+}
+img.icon {
+  width: 100%;
 }
 footer {
   width: 800px;

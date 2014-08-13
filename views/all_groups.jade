@@ -1,0 +1,19 @@
+extends layout
+
+block head
+  - function formatDecimal(x) { var str = x+""; return (str).slice(0,str.indexOf('.') + 3)}
+
+block content
+  - var MAX_COLS = 4
+  - var numRows = Math.ceil(groups.length / MAX_COLS)
+  table
+    - for (var row = 0; row < numRows; row++)
+      - var numColsInRow = (groups.length - MAX_COLS*row) > MAX_COLS ? MAX_COLS : (groups.length - MAX_COLS*row)
+        tr
+          - for (var col = 0; col < numColsInRow; col++)
+              td.gridCell
+                - var group = groups[row*MAX_COLS+col]
+                div.bigLink
+                  a(href="/groups/stats/"+group.id)= group.name
+                if (group.image_url)
+                  img.icon(src=group.image_url)
