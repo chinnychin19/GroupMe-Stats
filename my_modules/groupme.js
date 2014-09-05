@@ -19,3 +19,12 @@ exports.getAllGroups = function getAllGroups(session, callback) {
     callback(groups);
   });
 }
+
+exports.getGroupInfo = function getGroupInfo(session, group_id, callback) {
+  unirest.get(base_url+"/groups/"+group_id)
+  .query("token="+session.access_token)
+  .end(function(res) {
+    var group = res.body.response;
+    callback(group);
+  });
+}
