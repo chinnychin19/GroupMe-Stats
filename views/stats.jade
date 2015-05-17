@@ -5,6 +5,13 @@ block head
   - function formatDecimal(x) { var str = x+""; return (str).slice(0,str.indexOf('.') + 3)}
 
 block content
+  - var timeStamp = new Date(parseInt(last_updated))
+  - var timeString = timeStamp.toLocaleDateString() + ", " + timeStamp.toLocaleTimeString()
+
+  h2= group_name
+  h4= group_description
+  h4= "Last updated: " + timeString
+
   table
     tr
       th: a(href="/groups/stats/"+group_id+"?q=name") Name(s)
