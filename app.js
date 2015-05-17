@@ -4,7 +4,7 @@ var express = require('express')
   , session = require('express-session')
   , groupme = require('./my_modules/groupme.js')
   , mongo = require('./my_modules/mongo.js')
-  , config = require('./config.js');
+  , sorter = require('./my_modules/sortMembers.js');
 
 var app = express()
 
@@ -26,7 +26,7 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'))
 
 app.use(session({
-  secret: config.session_secret,
+  secret: process.env.GMSTATS_SESSION_SECRET,
   saveUninitialized: true,
   resave: true
   })
@@ -40,7 +40,7 @@ app.use(session({
 // pre-login
 app.get('/', function (req, res) {
   // redirect to groupme login
-  res.redirect("https://api.groupme.com/oauth/authorize?client_id="+config.client_id);
+  res.redirect("https://api.groupme.com/oauth/authorize?client_id="+process.env.GMSTATS_CLIENT_ID);
 });
 
 // post-login (loggedin)
@@ -51,6 +51,7 @@ app.get('/logged-in', function (req, res) {
   // 3) Store user info
   // 4) Redirect to groups page
   req.session.access_token = req.query.access_token;
+  console.log(req.query.access_token)
   groupme.getUserInfo(req.session, function(userInfo) {
     req.session.userInfo = userInfo;
     res.redirect('/groups');    
@@ -76,14 +77,21 @@ app.get('/groups/stats/:group_id', function (req, res) {
       mongo.isGroupProcessing(session, group_id, 
         function() { // if group is processing
           mongo.getStats(session, group_id, function(stats) {
-            res.send("still processing...\n\n"+JSON.stringify(stats));
+            res.send("Still processing... Try refreshing the page in a few moments...");
             // TODO: render jade file with processing true
           });
         }, 
         function() { // if group is done processing
           mongo.getStats(session, group_id, function(stats) {
-            res.send(JSON.stringify(stats));
-            // TODO: render jade file with processing false
+            console.log(JSON.stringify(stats));
+            var sortField = req.query.q ? req.query.q : "ratio"; // sort by ratio by default
+            console.log("sorting by "+sortField);
+            sorter.sortBy(stats, sortField);
+            var object = { 
+              "membersList" : stats, 
+              "group_id" : group_id 
+            };
+            res.render('stats', object); // TODO: include that processing is complete
           });
         });
     },

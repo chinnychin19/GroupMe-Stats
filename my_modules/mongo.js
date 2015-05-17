@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient
   , groupme = require('./groupme.js')
   , unirest = require('unirest');
 
-var MONGO_CONNECT_URI = require('../config.js').mongo_connect_uri;
+var MONGO_CONNECT_URI = process.env.GMSTATS_MONGO_CONNECT_URI;
 var MONGO_COLLECTION_NAME = "Groups";
 
 
