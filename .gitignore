@@ -1,7 +1,4 @@
 node_modules
 node_modules/**
 
-old-shit
-old-shit/**
-
 .DS_Store
