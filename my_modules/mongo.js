@@ -126,7 +126,7 @@ exports.updateGroupInDB = function updateGroupInDB(session, group_id, callback) 
                 console.log(err);
                 return;
             }
-            addGroupToDB(session, group_id, callback);
+            exports.addGroupToDB(session, group_id, callback);
         });
     });
 }

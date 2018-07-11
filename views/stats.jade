@@ -12,6 +12,10 @@ block content
   h4= group_description
   h4= "Last updated: " + timeString
 
+  - var form_action = "/groups/stats/"+group_id
+  form(action=form_action, method="post")
+    button(name="foo", value="bar") Update!
+
   table
     tr
       th: a(href="/groups/stats/"+group_id+"?q=name") Name(s)
